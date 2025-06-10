@@ -30,7 +30,7 @@
 
                                                       # Enable LightDM as the display manager for a graphical login screen.
                                                         services.displayManager.lightdm.enable = true;
-                                                          # If you prefer SDDM (often used with KDE Plasma, but works fine with i3):
+                                                          # If you prefer SDDM (often used with KDE Plasma, but works fine with i3), uncomment this and comment out LightDM:
                                                             # services.displayManager.sddm.enable = true;
 
                                                               # Configure your user account
@@ -120,18 +120,20 @@
                                                                           # Services needed for gnome-disk-utility and other graphical applications to communicate
                                                                             services.dbus.packages = [ pkgs.gnome-disk-utility ];
 
-                                                                              # Sound configuration with PipeWire (recommended modern audio server)
+                                                                              # Sound configuration with PipeWire
                                                                                 sound.enable = true;
                                                                                   hardware.pulseaudio.enable = false; # Disable PulseAudio if PipeWire is used
                                                                                     security.rtkit.enable = true;
                                                                                       services.pipewire = {
                                                                                             enable = true;
-                                                                                                alsa.enable = true;
-                                                                                                    alsa.support32Bit = true; # Needed for some 32-bit applications that use ALSA
-                                                                                                        pulse.enable = true; # Provide PulseAudio compatibility layer
-                                                                                                            # If you want to use WirePlumber (recommended session manager for PipeWire)
-                                                                                                                media-session.enable = false; # Disable default media session
-                                                                                                                    wireplumber.enable = true;
+                                                                                                alsa.enable = true; # ALSA compatibility
+                                                                                                    alsa.support32Bit = true; # 32-bit ALSA support
+                                                                                                        pulse.enable = true; # PulseAudio compatibility layer
+
+                                                                                                            # --- WirePlumber specific configuration ---
+                                                                                                                media-session.enable = false; # Crucial: Disable the default PipeWire media session
+                                                                                                                    wireplumber.enable = true; # Enable WirePlumber as the session manager
+                                                                                                                        # --- End WirePlumber specific configuration ---
                                                                                       };
 
                                                                                         # Enable touchpad support using the modern libinput driver
